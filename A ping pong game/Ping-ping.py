@@ -1,4 +1,5 @@
 from pygame import *
+from time import time as timer
 
 #классы 
 class GameSprite(sprite.Sprite):
@@ -24,6 +25,8 @@ class Player(GameSprite):
         keys = key.get_pressed()
         if keys[K_UP] and self.rect.y > 5:
             self.rect.y = -self.speed
+        if keys[K_DOWN] and self.rect.y <= 5:
+            self.rect.y = +self.speed
 
 #окно приложения
 window = display.set_mode((700,500))
@@ -33,8 +36,8 @@ display.set_caption('Ping-Pong')
 background = transform.scale(image.load('bg.png'), (700,500))
 
 #спрайты
-player_l = Player('paddle.png', 65, 65, 100, 430, 4)
-player_r = Player('paddle.png',65, 65, 100, 430, 4) 
+player_l = Player('paddle.png', 40, 100, 100, 430, 1)
+player_r = Player('paddle.png', 40, 100, 100, 430, 1) 
 
 
 
@@ -47,7 +50,7 @@ player_r = Player('paddle.png',65, 65, 100, 430, 4)
 FPS = 75
 running = True
 finish = False
-
+clock = time.Clock()
 
 while running:
     for e in event.get():
@@ -56,10 +59,12 @@ while running:
     if finish != True:
         window.blit(background, (0,0))
         player_l.update_l()
-        player_r.update_r
+        player_r.update_r()
 
         player_l.reset()
         player_r.reset()
-        
+    display.update()
+    clock.tick(FPS)
+
 
         
